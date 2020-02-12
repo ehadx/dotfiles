@@ -47,6 +47,10 @@ set colorcolumn=120
 " set syntax highlighting on
 syntax on
 
+" xcodedark config
+let g:xcodedark_green_comments=1
+let g:xcodedark_emph_funcs=1
+
 " set default colorscheme
 colorscheme xcodedark
 
@@ -65,7 +69,7 @@ let g:lightline = {
 \   'active': {
 \       'left': [
 \           [ 'mode', 'paste' ],
-\           [ 'gitbranch', 'readonly', 'relativepath', 'modified', 'gitsummary' ]
+\           [ 'gitbranch', 'readonly', 'relativepath', 'gitsummary' ]
 \       ],
 \       'right': [
 \           [ 'lineinfo' ],
