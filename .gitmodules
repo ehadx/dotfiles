@@ -1,0 +1,30 @@
+[submodule ".vim/pack/colors/start/vim-colors-xcode"]
+	path = .vim/pack/colors/start/vim-colors-xcode
+	url = https://github.com/arzg/vim-colors-xcode
+[submodule ".vim/pack/syntax/start/vim-swift"]
+	path = .vim/pack/syntax/start/vim-swift
+	url = https://github.com/arzg/vim-swift
+[submodule ".vim/pack/syntax/start/rust.vim"]
+	path = .vim/pack/syntax/start/rust.vim
+	url = https://github.com/rust-lang/rust.vim
+[submodule ".vim/pack/syntax/start/html5.vim"]
+	path = .vim/pack/syntax/start/html5.vim
+	url = https://github.com/othree/html5.vim
+[submodule ".vim/pack/syntax/start/vim-css3-syntax"]
+	path = .vim/pack/syntax/start/vim-css3-syntax
+	url = https://github.com/hail2u/vim-css3-syntax
+[submodule ".vim/pack/syntax/start/vim-javascript"]
+	path = .vim/pack/syntax/start/vim-javascript
+	url = https://github.com/pangloss/vim-javascript
+[submodule ".vim/pack/colors/start/landscape"]
+	path = .vim/pack/colors/start/landscape
+	url = https://github.com/itchyny/landscape.vim
+[submodule ".vim/pack/integrations/start/vim-fugitive"]
+	path = .vim/pack/integrations/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
+[submodule ".vim/pack/integrations/start/vim-gitgutter"]
+	path = .vim/pack/integrations/start/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter
+[submodule ".vim/pack/components/start/lightline"]
+	path = .vim/pack/components/start/lightline
+	url = https://github.com/itchyny/lightline.vim
