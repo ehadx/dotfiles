@@ -28,3 +28,15 @@
 [submodule ".vim/pack/components/start/lightline"]
 	path = .vim/pack/components/start/lightline
 	url = https://github.com/itchyny/lightline.vim
+[submodule ".vim/pack/colors/start/vim-nightfly-guicolors"]
+	path = .vim/pack/colors/start/vim-nightfly-guicolors
+	url = https://github.com/bluz71/vim-nightfly-guicolors
+[submodule ".vim/pack/syntax/start/vim-tsx"]
+	path = .vim/pack/syntax/start/vim-tsx
+	url = https://github.com/ianks/vim-tsx
+[submodule ".vim/pack/components/opt/nerdtree"]
+	path = .vim/pack/components/opt/nerdtree
+	url = https://github.com/preservim/nerdtree.git
+[submodule ".vim/pack/integrations/opt/nerdtree-git-plugin"]
+	path = .vim/pack/integrations/opt/nerdtree-git-plugin
+	url = https://github.com/Xuyuanp/nerdtree-git-plugin

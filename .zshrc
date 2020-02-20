@@ -11,4 +11,4 @@ setopt prompt_subst
 
 setopt no_beep
 
-for file in .zsh/**/*.zsh; source $file
+for file in $HOME/.zsh/**/*.zsh; source $file
