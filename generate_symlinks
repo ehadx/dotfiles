@@ -16,5 +16,7 @@ for node in $nodes; do
 
             ln -s $HOME/.dotfiles/$node $HOME/$node
         fi
+    else
+        ln -s $HOME/.dotfiles/$node $HOME/$node
     fi
 done
