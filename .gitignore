@@ -1,3 +1,4 @@
 .zsh/local/
 .vim/view
 .vim/.netrwhist
+.DS_Store
