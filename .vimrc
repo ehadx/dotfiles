@@ -2,10 +2,10 @@
 set number
 
 " number of spaces that a <Tab> counts for
-set tabstop=4
+set tabstop=2
 
 " number of spaces used for auto-indent
-set shiftwidth=4
+set shiftwidth=2
 
 " expand tab to spaces
 set expandtab
@@ -29,7 +29,7 @@ set noerrorbells
 set visualbell
 
 " get rid of -- MODE --
-set noshowmode
+" set noshowmode
 
 " reduce vim's updatetime
 set updatetime=1000
@@ -38,50 +38,19 @@ set updatetime=1000
 set mouse=a
 
 " highlight the line of the cursor
-set cursorline
-
-" highlight the column 120 to mark where to cut the line
-autocmd BufWinEnter * highlight ColorColumn ctermbg=darkred
-set colorcolumn=120
+" set cursorline
 
 " set syntax highlighting on
 syntax on
 
-" xcodedark config
-let g:xcodedark_green_comments=1
-let g:xcodedark_emph_funcs=1
+" show row,col
+set ruler
 
-" set default colorscheme
-colorscheme xcodedark
+" default hsplit pos
+set splitbelow
 
-" disable all key mappings
-let g:gitgutter_map_keys=0
+" default vsplit pos
+set splitright
 
-" get hunk summary from vim-gitgutter
-function! GitStatus()
-    let [a,m,r] = GitGutterGetHunkSummary()
-    return printf('+%d ~%d -%d', a, m, r)
-endfunction
-
-" lightline config
-let g:lightline = {
-\   'colorscheme': 'materia',
-\   'active': {
-\       'left': [
-\           [ 'mode', 'paste' ],
-\           [ 'gitbranch', 'readonly', 'relativepath', 'gitsummary' ]
-\       ],
-\       'right': [
-\           [ 'lineinfo' ],
-\           [ 'percent', 'lineoverlines' ],
-\           [ 'fileformat', 'fileencoding', 'filetype' ]
-\       ]
-\   },
-\   'component_function': {
-\       'gitbranch': 'FugitiveHead',
-\       'gitsummary': 'GitStatus'
-\   },
-\   'component': {
-\       'lineoverlines': '%l/%L'
-\   }
-\   }
+" default backspace behavior
+set backspace=indent,eol,start
