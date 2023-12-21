@@ -20,7 +20,7 @@ set smartindent
 set smarttab
 
 " always show status bar
-set laststatus=2
+" set laststatus=2
 
 " no error sound when something wrong happens
 set noerrorbells
