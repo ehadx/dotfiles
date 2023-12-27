@@ -4,11 +4,14 @@
 
 # terminal emulator
 super + Return
-	alacritty
+	kitty
 
 # program launcher
-super + ~p
-  rofi -show combi -modes combi -combi-modes "window,drun"
+super + p
+ 	 rofi -show-icons -show combi -modes combi -combi-modes "window,drun,run"
+
+super + shift + p
+	$HOME/.bin/run-flatpak-app
 
 # make sxhkd reload its configuration files:
 super + Escape

@@ -20,17 +20,17 @@
 
 ;; Font Configuration ----------------------------------------------------------
 (set-face-attribute 'default nil
-		    :font "JetBrainsMono Nerd Font"
+		    :font "JetBrains Mono"
 		    :height 120)
 
 ;; Set the fixed pitch face
 (set-face-attribute 'fixed-pitch nil
-		    :font "JetBrainsMono Nerd Font"
+		    :font "JetBrains Mono"
 		    :height 120)
 
 ;; Set the variable pitch face
 (set-face-attribute 'variable-pitch nil
-		    :font "Linux Biolinum G"
+		    :font "DejaVu Sans"
 		    :height 140
 		    :weight 'regular)
 
@@ -70,23 +70,29 @@
   :config
   (setq which-key-idle-delay 1))
 
-(use-package evil
+(use-package csharp-mode)
+
+(use-package lsp-mode
   :init
-  (setq evil-want-C-u-scroll t)
-  (setq evil-shift-width 2)
-  (setq evil-split-window-below t)
-  (setq evil-vsplit-window-right t)
-  (setq evil-undo-system 'undo-redo))
-  
-(keymap-global-set "C-c o l" #'org-store-link)
-(keymap-global-set "C-c o g" #'org-agenda)
-(keymap-global-set "C-c o c" #'org-capture)
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (csharp-mode . lsp)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package company :commands company-mode)
 
 (setq org-support-shift-select t)
 (defun hadi/org-mode-setup ()
   (org-indent-mode 1)
   ;; (variable-pitch-mode 1)
   (visual-line-mode 1)
+  (keymap-global-set "C-c o l" #'org-store-link)
+  (keymap-global-set "C-c o g" #'org-agenda)
+  (keymap-global-set "C-c o c" #'org-capture)
   (setq-local electric-indent-mode -1))
 
 (add-hook 'org-mode-hook (lambda () (hadi/org-mode-setup)))
