@@ -3,19 +3,27 @@
 if (cat /etc/os-release | grep 'Void Linux')
 then
   firstmon='eDP1'
+  secondmon='HDMI-1-0'
   pgrep -x sxhkd > /dev/null || sxhkd -c $HOME/.config/sxhkd/sxhkdrc_void &
-else
+elif (cat /etc/os-release | grep 'Debian')
+then
   firstmon='eDP-1'
+  secondmon='HDMI-1-0'
   pgrep -x sxhkd > /dev/null || sxhkd -c $HOME/.config/sxhkd/sxhkdrc_debian &
+else
+  firstmon='eDP1'
+  secondmon='HDMI-1-0'
+  pgrep -x sxhkd > /dev/null || sxhkd -c $HOME/.config/sxhkd/sxhkdrc_void &
 fi
 
-picom &
-
-secondmon='HDMI-1-0'
+pgrep -x picom > /dev/null || picom &
+pgrep -x tint2 > /dev/null || tint2 &
+pgrep -x ibus-daemon > /dev/null || ibus-daemon -rxRd
+pgrep -x pipewire > /dev/null || pipewire &
 
 if (xrandr -q | grep "$secondmon connected")
 then
-  xrandr --output $firstmon --primary --output $secondmon --auto --right-of $firstmon
+  xrandr --output $secondmon --auto --right-of $firstmon
   bspc monitor $firstmon -d 1 2 3 4 5
   bspc monitor $secondmon -d 6 7 8 9 0
 else
@@ -23,11 +31,6 @@ else
 fi
 
 nitrogen --restore
-
-if (cat /etc/os-release | grep 'Void Linux')
-then
-  pipewire &
-fi
 
 bspc config border_width         2
 bspc config window_gap          12
@@ -37,3 +40,4 @@ bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
 bspc rule -a 'Virt-manager':'virt-manager':* state=floating follow=on
+bspc rule -a 'Tint2conf':'tint2conf':* state=floating follow=on

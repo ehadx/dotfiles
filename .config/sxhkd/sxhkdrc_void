@@ -7,11 +7,14 @@ super + Return
 	kitty
 
 # program launcher
-super + p
- 	 rofi -show-icons -show combi -modes combi -combi-modes "window,drun,run"
+super + r
+ 	 rofi -show-icons -show run
 
-super + shift + p
-	$HOME/.bin/run-flatpak-app
+super + d
+	rofi -show-icons -show drun
+
+super + w
+	rofi -show-icons -show window
 
 # make sxhkd reload its configuration files:
 super + Escape

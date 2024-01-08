@@ -1,3 +1,6 @@
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
+
 (setq inhibit-startup-message t)
 (set-scroll-bar-mode nil)
 
@@ -9,7 +12,7 @@
 (setq column-number-mode t)
 
 (setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
+(setq ido-everywhere t)									
 (ido-mode 1)
 
 (setq display-line-numbers-type 'relative)
@@ -19,22 +22,22 @@
 (setq backup-directory-alist '(("." . "~/.emacs.d/emacs_saves")))
 
 ;; Font Configuration ----------------------------------------------------------
-(set-face-attribute 'default nil
-		    :font "JetBrains Mono"
-		    :height 120)
+;; (set-face-attribute 'default nil
+;;		    :font "JetBrains Mono"
+;;		    :height 120)
 
 ;; Set the fixed pitch face
-(set-face-attribute 'fixed-pitch nil
-		    :font "JetBrains Mono"
-		    :height 120)
+;; (set-face-attribute 'fixed-pitch nil
+;; 		    :font "JetBrains Mono"
+;; 		    :height 120)
 
-;; Set the variable pitch face
-(set-face-attribute 'variable-pitch nil
-		    :font "DejaVu Sans"
-		    :height 140
-		    :weight 'regular)
+;; ;; Set the variable pitch face
+;; (set-face-attribute 'variable-pitch nil
+;; 		    :font "DejaVu Sans"
+;; 		    :height 140
+;; 		    :weight 'regular)
 
-(set-fontset-font t 'arabic "Noto Kufi Arabic")
+;; (set-fontset-font t 'arabic "Noto Kufi Arabic")
 
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
