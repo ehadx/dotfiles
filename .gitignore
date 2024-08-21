@@ -2,3 +2,4 @@
 .vim/view
 .vim/.netrwhist
 .DS_Store
+__pycache__/
