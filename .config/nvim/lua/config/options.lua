@@ -4,14 +4,12 @@ local options = {
   completeopt = { "menuone", "noselect", "popup" },
   conceallevel = 0,
   fileencoding = "utf-8",
-  hlsearch = false,
+  hlsearch = true,
   ignorecase = true,
   mouse = "a",
   pumheight = 10,
   showmode = false,
   showtabline = 2,
-  smartcase = true,
-  smartindent = true,
   splitbelow = true,
   splitright = true,
   swapfile = true,
@@ -20,6 +18,8 @@ local options = {
   undofile = true,
   updatetime = 300,
   writebackup = false,
+  smartindent = true,
+  smartcase = true,
   expandtab = true,
   shiftwidth = 2,
   tabstop = 2,
@@ -31,7 +31,7 @@ local options = {
   signcolumn = "yes",
   wrap = true,
   linebreak = true,
-  scrolloff = 8,
+  scrolloff = 10,
   sidescrolloff = 8,
   guifont = "monospace:h17",
   whichwrap = "bs<>[]hl",
@@ -40,8 +40,6 @@ local options = {
 for k, v in pairs(options) do
   vim.opt[k] = v
 end
-
--- vim.cmd 'source ~/.config/nvim/vim/tabline.vim'
 
 -- vim.opt.shortmess = "ilmnrx"                        -- flags to shorten vim messages, see :help 'shortmess'
 vim.opt.shortmess:append "c"                           -- don't give |ins-completion-menu| messages

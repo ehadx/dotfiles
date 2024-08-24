@@ -11,7 +11,7 @@ return {
       -- Replace all fillchars with ' ' for the ultimate clean look
       hide_fillchars = false,
       -- Modern borderless telescope theme - also applies to fzf-lua
-      borderless_telescope = true,
+      borderless_telescope = false,
       -- Set terminal colors used in `:terminal`
       terminal_colors = true,
       -- Use caching to improve performance - WARNING: experimental feature - expect the unexpected!
@@ -30,7 +30,6 @@ return {
           overrides = function(colors) -- NOTE: This function nullifies the `highlights` option
               -- Example:
               return {
-                  Comment = { fg = colors.green, bg = "NONE", italic = true },
                   ["@property"] = { fg = colors.magenta, bold = true },
               }
           end,
@@ -45,10 +44,33 @@ return {
       },
       -- Disable or enable colorscheme extensions
       extensions = {
-          telescope = true,
-          notify = true,
-          mini = true,
-          ...
+        alpha = true,
+        cmp = true,
+        dashboard = true,
+        fzflua = true,
+        gitpad = true,
+        gitsigns = true,
+        grapple = true,
+        grugfar = true,
+        heirline = true,
+        helpview = true,
+        hop = true,
+        indentblankline = true,
+        kubectl = true,
+        lazy = true,
+        leap = true,
+        markdown = true,
+        markview = true,
+        mini = true,
+        noice = true,
+        neogit = true,
+        notify = true,
+        rainbow_delimiters = true,
+        telescope = true,
+        treesitter = true,
+        treesittercontext = true,
+        trouble = true,
+        whichkey = true,
       },
     }
   },

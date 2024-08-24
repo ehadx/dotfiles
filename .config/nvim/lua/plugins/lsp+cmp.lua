@@ -2,36 +2,21 @@ return {
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
-      "onsails/lspkind.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-buffer",
       'hrsh7th/cmp-cmdline',
-      { "L3MON4D3/LuaSnip", build = "make install_jsregexp" },
-      "saadparwaiz1/cmp_luasnip",
     },
     config = function()
       local cmp = require("cmp")
       local compare = require('cmp.config.compare')
-      local lspkind = require "lspkind"
 
       cmp.setup({
         snippet = {
           -- REQUIRED - you must specify a snippet engine
           expand = function(args)
-            -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-            -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+            vim.snippet.expand(args.body)
           end,
-        },
-        formatting = {
-          format = lspkind.cmp_format({
-            mode = 'symbol_text',
-            maxwidth = 50,
-            ellipsis_char = '...',
-            show_labelDetails = true,
-          }),
         },
         sorting = {
           priority_weight = 2,
@@ -61,7 +46,6 @@ return {
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
-          { name = "luasnip" },
         }, {
           { name = "buffer" },
           { name = "path" },
@@ -106,12 +90,6 @@ return {
         capabilities = require("cmp_nvim_lsp").default_capabilities(client_capabilities)
       end
 
-      local opts = { noremap = true, silent = true }
-      vim.keymap.set("n", "<leader>lD", vim.diagnostic.open_float, opts)
-      vim.keymap.set("n", "<leader>ldn", vim.diagnostic.goto_next, opts)
-      vim.keymap.set("n", "<leader>ldp", vim.diagnostic.goto_prev, opts)
-      -- setloclist
-
       local on_attach_gen = function(name, server_capabilities)
         local on_attach = function(client, bufnr)
           if client.server_capabilities.inlayHintProvider then
@@ -131,22 +109,7 @@ return {
             end
           end
 
-          opts['buffer'] = 0
-          vim.keymap.set('n', '<leader>lgD', vim.lsp.buf.declaration, opts)
-          vim.keymap.set('n', '<leader>lgd', vim.lsp.buf.definition, opts)
-          vim.keymap.set('n', '<leader>lgi', vim.lsp.buf.implementation, opts)
-          vim.keymap.set('n', '<leader>lgt', vim.lsp.buf.type_definition, opts)
-          vim.keymap.set('n', '<leader>lgr', vim.lsp.buf.references, opts)
-          vim.keymap.set('n', '<leader>lh', vim.lsp.buf.hover, opts)
-          vim.keymap.set('n', '<leader>ls', vim.lsp.buf.signature_help, opts)
-          vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, opts)
-          vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, opts)
-          vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, opts)
-
-          local tbuiltins = require "telescope.builtin"
-          vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
-          vim.keymap.set('n', '<leader>fld', tbuiltins.lsp_definitions, opts)
-          vim.keymap.set('n', '<leader>flr', tbuiltins.lsp_references, opts)
+          require("config.keymaps").setup_lsp_keymaps(bufnr)
         end
         return on_attach
       end
@@ -154,16 +117,40 @@ return {
       local servers = {
         bashls = true,
         lua_ls = {
+          on_init = function(client)
+            local path = client.workspace_folders[1].name
+
+            if vim.loop.fs_stat(path..'/.luarc.json') then
+              return
+            end
+
+            if vim.loop.fs_stat(path..'/.luarc.jsonc') then
+              return
+            end
+
+            client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+              runtime = {
+                version = 'LuaJIT'
+              },
+              workspace = {
+                checkThirdParty = false,
+                library = {
+                  vim.env.VIMRUNTIME
+                },
+                -- library = vim.api.nvim_get_runtime_file("", true)
+              }
+            })
+          end,
+          settings = {
+            Lua = {}
+          },
           server_capabilities = {
             semanticTokensProvider = vim.NIL,
           },
         },
         ruff_lsp = true,
         rust_analyzer = true,
-        clangd = {
-          init_options = { clangdFileStatus = true },
-          filetypes = { "c" }
-        }
+        clangd = true,
       }
 
       for name, config in pairs(servers) do

@@ -1,6 +1,5 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  branch = "v3.x",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -8,9 +7,6 @@ return {
     "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
   },
   config = function()
-    local map_opts = { noremap = true, silent = true }
-    vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', map_opts)
-
     require("neo-tree").setup({
       sources = {
         "filesystem",
@@ -21,14 +17,6 @@ return {
       source_selector = {
         winbar = true,
         statusline = false
-      },
-      event_handlers = {
-        {
-          event = "neo_tree_window_after_open",
-          handler = function()
-            vim.opt.laststatus = 3
-          end
-        }
       },
       window = {
         position = "left",
@@ -70,5 +58,5 @@ return {
         hijack_netrw_behavior =  "open_current",
       }
     })
-  end 
+  end
 }

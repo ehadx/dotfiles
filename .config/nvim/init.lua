@@ -21,16 +21,18 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-vim.g.loaded_netrw = 0
-vim.g.loaded_netrwPlugin = 0
+vim.g.maplocalleader = " "
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
--- Setup lazy.nvim
-require("lazy").setup({
+require "lazy".setup {
   spec = {
     { import = "plugins" }
   },
   checker = { enabled = true },
-})
+}
 
 require 'config.colorscheme'
+
+
+vim.cmd "source vim/tabline.vim"
