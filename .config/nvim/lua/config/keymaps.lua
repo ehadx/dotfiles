@@ -10,9 +10,6 @@ vim.keymap.set("n", "<C-Down>", ":resize -2<CR>", opts)
 vim.keymap.set("n", "<C-Left>", ":vertical resize +2<CR>", opts)
 vim.keymap.set("n", "<C-Right>", ":vertical resize -2<CR>", opts)
 
-vim.keymap.set('n', '|', ':vsplit<CR>', opts)
-vim.keymap.set('n', '\\', ':split<CR>', opts)
-
 -- Navigate buffers
 vim.keymap.set("n", "]b", ":bnext<CR>", opts)
 vim.keymap.set("n", "[b", ":bprevious<CR>", opts)
@@ -54,7 +51,7 @@ M.setup_lsp_keymaps = function(bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>lr', ":lua vim.lsp.buf.rename()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>la', ":lua vim.lsp.buf.code_action()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>lf', ":lua vim.lsp.buf.format()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ld", ":vim.diagnostic.open_float()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ld", ":lua vim.diagnostic.open_float()<CR>", opts)
 
   local opts_copy = vim.tbl_deep_extend("force", opts, { buffer = 0 })
   local tbuiltins = require "telescope.builtin"

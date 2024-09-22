@@ -116,6 +116,18 @@ return {
 
       local servers = {
         bashls = true,
+        html = {
+          init_options = {
+            configurationSection = { "html", "css", "javascript" },
+            embeddedLanguages = {
+              css = true,
+              javascript = true
+            },
+            provideFormatter = true
+          }
+        },
+        twiggy_language_server = true,
+        jdtls = true,
         lua_ls = {
           on_init = function(client)
             local path = client.workspace_folders[1].name
@@ -148,7 +160,7 @@ return {
             semanticTokensProvider = vim.NIL,
           },
         },
-        ruff_lsp = true,
+        pyright = true,
         rust_analyzer = true,
         clangd = true,
       }

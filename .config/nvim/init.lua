@@ -35,4 +35,4 @@ require "lazy".setup {
 require 'config.colorscheme'
 
 
-vim.cmd "source vim/tabline.vim"
+vim.cmd "source $HOME/.config/nvim/vim/tabline.vim"
