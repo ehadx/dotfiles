@@ -62,6 +62,7 @@
   services.flatpak.enable = true;
   environment.variables = {
     XDG_DATA_DIRS = lib.mkDefault "$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:~/.local/share/flatpak/exports/share";
+    DOTNET_CLI_TELEMETRY_OPTOUT = 1;
   };
 
   xdg.portal = {
@@ -98,6 +99,12 @@
   environment.systemPackages = with pkgs; [
     fastfetch
     neovim
+    htop
+
+    # Kubernetes
+    minikube
+    kubectl
+    kubernetes-helm
   ];
 
   fonts.packages = with pkgs; [
@@ -105,7 +112,8 @@
     noto-fonts-cjk-sans
     noto-fonts-emoji
     dina-font
-    (nerdfonts.override { fonts = [ "SourceCodePro" "JetBrainsMono" ]; })
+    nerd-fonts.sauce-code-pro
+    nerd-fonts.jetbrains-mono
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

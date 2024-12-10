@@ -22,6 +22,11 @@
             ./system/hardware-configuration.nix
             ./system/configuration.nix
             ./system/gnome.nix
+            home-manager.nixosModules.home-manager {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.hadi = import ./system/hadi.nix;
+            }
           ];
         };
       };
@@ -31,7 +36,7 @@
           inherit pkgs;
           modules =
             [
-              ./home/home.nix
+              ./home/hadi.nix
               ./home/emacs
               ./home/nvim
               ./home/gnome.nix

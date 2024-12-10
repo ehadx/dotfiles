@@ -7,7 +7,6 @@
     top-bar-organizer
     burn-my-windows
     caffeine
-    paperwm
   ];
 
   dconf.settings = {

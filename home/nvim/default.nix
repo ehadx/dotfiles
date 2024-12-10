@@ -19,12 +19,18 @@
       vim-dadbod
       vim-dadbod-ui
       vim-dadbod-completion
+      which-key-nvim
+      nvim-treesitter
+      nvim-treesitter-parsers.fsharp
+      { plugin = nightfox-nvim;
+        config = "colorscheme carbonfox";
+      }
       { plugin = lualine-nvim;
         type = "lua";
         config = builtins.readFile ./lualine.lua;
       }
       { plugin = cyberdream-nvim;
-        config = "colorscheme cyberdream";
+        # config = "colorscheme cyberdream";
       }
       { plugin = nvim-cmp;
         type = "lua";
@@ -33,6 +39,15 @@
       { plugin = nvim-lspconfig;
         type = "lua";
         config = builtins.readFile ./lsp.lua;
+      }
+      { plugin = Ionide-vim;
+        config = ''
+          let g:fsharp#fsautocomplete_command =
+            \ [ 'dotnet',
+            \   'fsautocomplete',
+            \   '--background-service-enabled'
+            \ ]
+        '';
       }
     ];
   };

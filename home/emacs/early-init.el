@@ -11,7 +11,7 @@
       inhibit-startup-echo-area-message user-login-name ; read the docstring
       inhibit-startup-buffer-menu t)
 
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; I do not use those graphical elements by default, but I do enable
 ;; them from time-to-time for testing purposes or to demonstrate
