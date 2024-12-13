@@ -46,17 +46,17 @@
   services.avahi.enable = false;
   services.geoclue2.enable = false;
 
-  environment.gnome.excludePackages = [
-    pkgs.orca
-    pkgs.gnome-tour
+  environment.gnome.excludePackages = with pkgs; [
+    orca
+    gnome-tour
+    gnome-shell-extensions
   ];
-  environment.systemPackages = [
-    pkgs.dconf-editor
-    pkgs.nautilus
-    pkgs.gnome-tweaks
+  environment.systemPackages = with pkgs; [
+    dconf-editor
+    nautilus
+    gnome-tweaks
 
     ## I Think those are already installed
-    # gnome-shell-extensions
     # gnome-power-manager
     # gnome-screenshot
     # gpaste

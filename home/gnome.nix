@@ -31,7 +31,7 @@
     };
 
     "org/gnome/desktop/wm/preferences" = {
-      num-workspaces = 10;
+      num-workspaces = 4;
       focus-mode = "click";
       resize-with-right-button = true;
     };

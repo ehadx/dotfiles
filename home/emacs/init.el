@@ -6,6 +6,7 @@
   :config
   (setq custom-file "~/.emacs.d/custom.el")
   (load-file custom-file)
+  (load-file "./eglot-conf.el")
   ;(load-file "~/Projects/hy-lang-mode/hy-lang-mode.el")
 
   (column-number-mode t)
@@ -63,31 +64,6 @@
   (fido-vertical-mode t))
 
 (use-package org :ensure nil)
-
-(use-package eglot
-  :ensure t
-  :config
-    (add-hook 'java-mode-hook (lambda nil (eglot-ensure)))
-    (add-hook 'python-mode-hook (lambda nil (eglot-ensure)))
-    (add-hook 'csharp-mode-hook (lambda nil (eglot-ensure)))
-    (add-hook 'rust-mode-hook (lambda nil (eglot-ensure)))
-    (setq eglot-connect-timeout 60)
-    (setq
-     eglot-server-programs
-     '((roc-ts-mode "roc_language_server")
-       ((csharp-mode csharp-ts-mode) . ("OmniSharp" "-lsp"))
-       ((fsharp-mode) . ("dotnet" "fsautocomplete"))
-       ((rust-mode rust-ts-mode) . ("rust-analyzer"))
-       ((js-mode typescript-mode) . (eglot-deno "deno" "lsp"))
-       ((python-mode python-ts-mode) "pyright-langserver" "--stdio")))
-
-    (defclass eglot-deno (eglot-lsp-server) ()
-      :documentation "A custom class for deno lsp.")
-
-    (cl-defmethod eglot-initialization-options ((server eglot-deno))
-      "Passes through required deno initialization options"
-      (list :enable t
-	    :lint t)))
 
 (use-package evil
   :ensure t
