@@ -6,7 +6,7 @@
   :config
   (setq custom-file "~/.emacs.d/custom.el")
   (load-file custom-file)
-  (load-file "./eglot-conf.el")
+  (load-file "~/.emacs.d/eglot-conf.el")
   ;(load-file "~/Projects/hy-lang-mode/hy-lang-mode.el")
 
   (column-number-mode t)

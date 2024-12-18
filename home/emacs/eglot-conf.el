@@ -1,3 +1,5 @@
+(require 'eglot)
+
 (defcustom eglot-fsharp-fsautocomplete-args
   '(:automaticWorkspaceInit
     t
@@ -80,6 +82,15 @@
 (defun eglot-fsharp (interactive)
     (cons 'eglot-fsautocomplete `("dotnet" "fsautocomplete" "--adaptive-lsp-server-enabled")))
 
+
+(defclass eglot-deno (eglot-lsp-server) ()
+  :documentation "A custom class for deno lsp.")
+
+(cl-defmethod eglot-initialization-options ((server eglot-deno))
+  "Passes through required deno initialization options"
+  (list :enable t
+	    :lint t))
+
 (use-package eglot
   :ensure t
   :config
@@ -95,12 +106,4 @@
        ((fsharp-mode) . eglot-fsharp)
        ((rust-mode rust-ts-mode) . ("rust-analyzer"))
        ((js-mode typescript-mode) . (eglot-deno "deno" "lsp"))
-       ((python-mode python-ts-mode) "pyright-langserver" "--stdio")))
-
-    (defclass eglot-deno (eglot-lsp-server) ()
-      :documentation "A custom class for deno lsp.")
-
-    (cl-defmethod eglot-initialization-options ((server eglot-deno))
-      "Passes through required deno initialization options"
-      (list :enable t
-	        :lint t)))
+       ((python-mode python-ts-mode) "pyright-langserver" "--stdio"))))
