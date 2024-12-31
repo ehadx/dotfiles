@@ -1,7 +1,7 @@
 (use-package emacs
   :ensure nil
   :init
-  (load-theme 'modus-vivendi)
+  ;(load-theme 'modus-vivendi)
 
   :config
   (setq custom-file "~/.emacs.d/custom.el")
@@ -58,7 +58,6 @@
 
 (use-package icomplete
   :ensure nil
-  :init
   :config
   (icomplete-vertical-mode t)
   (fido-vertical-mode t))
@@ -98,7 +97,7 @@
   :defer t
   :config
   (require 'fsharp-mode)
-  (setq-default fsharp-indent-offset 2)
+  (setq-default fsharp-indent-offset 4)
   (add-hook 'fsharp-mode-hook 'highlight-indentation-mode)
   (add-hook 'fsharp-mode-hook #'eglot-ensure))
 

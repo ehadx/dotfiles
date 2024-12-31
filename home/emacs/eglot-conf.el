@@ -28,7 +28,7 @@
 	:fsiExtraParameters nil
 	:fsiSdkFilePath ""
 	:generateBinlog nil
-	:indentationSize 2
+	:indentationSize 4
 	:inlayHints (:disableLongTooltip nil
 								     :enabled t
 								     :parameterNames t

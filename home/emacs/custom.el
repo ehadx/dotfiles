@@ -1,9 +1,10 @@
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 135 :width normal :foundry "ADBO" :family "JetbrainsMono Nerd Font"))))
+ '(default ((t (:inherit nil :extend nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight regular :height 135 :width normal :foundry "ADBO" :family "SauceCodePro Nerd Font"))))
  '(org-level-1 ((t (:inherit outline-1 :extend nil :height 1.3))))
  '(org-level-2 ((t (:inherit outline-2 :extend nil :height 1.275))))
  '(org-level-3 ((t (:inherit outline-3 :extend nil :height 1.25))))
