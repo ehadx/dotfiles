@@ -83,6 +83,29 @@ vim.keymap.set({ 'i', 's' }, '<C-k>', function()
   return vim.snippet.active { direction = -1 } and vim.snippet.jump(-1)
 end, { expr = true, silent = true })
 
+vim.keymap.set("n", "<M-x>", ":", { noremap = true, silent = false })
+
 local term_opts = { silent = true }
 vim.keymap.set('t', '<C-\\>', [[<C-\><C-n>]], term_opts)
 vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], term_opts)
+
+function no_line_numbers()
+  vim.opt.number = false
+  vim.opt.relativenumber = false
+end
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = vim.api.nvim_create_augroup("custom-term-open", { clear = true }),
+  callback = no_line_numbers,
+})
+
+local st_job_id = 0
+vim.keymap.set("n", "<M-t>", function()
+  vim.cmd.vnew()
+  vim.cmd.term()
+  vim.cmd.wincmd("J")
+  vim.api.nvim_win_set_height(0, 10)
+  vim.api.nvim_feedkeys("A", "n", false)
+  st_job_id = vim.bo.channel
+  vim.fn.chansend(st_job_id, { "clear\r\n" })
+end)

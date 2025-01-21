@@ -100,6 +100,7 @@
     fastfetch
     neovim
     htop
+    ghostty
 
     # Kubernetes
     minikube
@@ -112,8 +113,13 @@
     noto-fonts-cjk-sans
     noto-fonts-emoji
     dina-font
+    victor-mono
+    iosevka-comfy.comfy-wide-motion
+    iosevka-comfy.comfy-motion-fixed
     nerd-fonts.sauce-code-pro
     nerd-fonts.jetbrains-mono
+    nerd-fonts.iosevka
+    nerd-fonts.victor-mono
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

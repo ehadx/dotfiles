@@ -29,9 +29,6 @@
         type = "lua";
         config = builtins.readFile ./lualine.lua;
       }
-      { plugin = cyberdream-nvim;
-        # config = "colorscheme cyberdream";
-      }
       { plugin = nvim-cmp;
         type = "lua";
         config = builtins.readFile ./cmp.lua;

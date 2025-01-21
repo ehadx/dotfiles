@@ -40,8 +40,6 @@
  '(indent-tabs-mode nil)
  '(mpc-mpd-music-directory "~/Music")
  '(nerd-icons-scale-factor 1.0)
- '(org-agenda-files
-   '("~/Documents/Agenda/Basaer.org" "/home/hadi/Documents/Agenda/SocialSupport.org" "/home/hadi/Documents/Agenda/Torath.org" "/home/hadi/Documents/Agenda/System.org"))
  '(org-agenda-loop-over-headlines-in-active-region nil)
  '(package-selected-packages
    '(markdown-mode cyberpunk-theme color-theme-sanityinc-tomorrow gruvbox-theme web-mode ef-themes hy-mode zig-mode hl-todo gruber-darker-theme eglot-fsharp zig-ts-mode roc-ts-mode eglot rust-mode wgrep js-mode typescript-mode nerd-icons-dired quelpa-use-package quelpa pdf-tools toml-mode magit doom-modeline direnv standard-themes modus-themes helpfuL clojure-mode fsharp-mode which-key nix-mode helpful evil))

@@ -7,13 +7,13 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    emacs-nix = {
+      url = "path:emacs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { 
-    nixpkgs,
-    home-manager,
-    ... 
-  }:
+  outputs = { nixpkgs, home-manager, emacs-nix, ... }:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
@@ -29,23 +29,19 @@
             home-manager.nixosModules.home-manager {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.hadi = import ./system/hadi.nix;
+              home-manager.extraSpecialArgs = {
+                emacsHomeConfig = emacs-nix.defaultPackage.${system};
+              };
+              home-manager.users.hadi = ({ config, pkgs, emacsHomeConfig, ... }: {
+                imports = [
+                  ./home/hadi.nix
+                  ./home/nvim
+                  ./home/gnome.nix
+                  emacsHomeConfig
+                ];
+              });
             }
           ];
-        };
-      };
-
-      homeConfigurations = {
-        hadi = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules =
-            [
-              ./home/hadi.nix
-              ./home/emacs
-              ./home/nvim
-              ./home/gnome.nix
-              # ./home/exwm
-            ];
         };
       };
     };

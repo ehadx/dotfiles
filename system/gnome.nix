@@ -10,7 +10,7 @@
 
   # under core services we can customize the following
   hardware.bluetooth.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
 
   services.dleyna-renderer.enable = false;
   services.dleyna-server.enable = false;
@@ -63,5 +63,5 @@
   ];
 
   services.gnome.sushi.enable = true;
-  programs.gnome-terminal.enable = true;
+  programs.gnome-terminal.enable = false;
 }

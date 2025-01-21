@@ -11,15 +11,21 @@ require("lualine").setup {
     ignore_focus = {
     },
     always_divide_middle = true,
+    always_show_tabline = false,
     globalstatus = false,
     refresh = {
-      statusline = 1000,
-      tabline = 1000,
-      winbar = 1000,
+      statusline = 100,
+      tabline = 100,
+      winbar = 100,
     }
   },
   sections = {
-    lualine_a = {'mode'},
+    lualine_a = {
+      {
+        'mode',
+        fmt = function(str) return str:sub(1, 1) end
+      }
+    },
     lualine_b = {
       'branch',
       'diff',
@@ -100,10 +106,7 @@ require("lualine").setup {
   },
   extensions = {
     "quickfix",
-    "neo-tree",
     "mason",
-    "lazy",
-    "oil",
     "man"
   }
 }
