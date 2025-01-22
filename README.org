@@ -96,3 +96,107 @@
       };
   }
 #+END_SRC
+
+** Darwin
+
+#+BEGIN_SRC nix
+  {
+    description = "Personal Darwin Configuration";
+
+    inputs = {
+      nixpkgs.url = "nixpkgs/nixos-unstable";
+      nix-darwin = {
+        url = "github:LnL7/nix-darwin/master";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+      home-manager = {
+        url = "github:nix-community/home-manager";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+      emacs-conf = {
+        url = "github:ehadx/dotfiles?dir=emacs";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+      gnome-conf = {
+        url = "github:ehadx/dotfiles?dir=gnome";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+      nvim-conf = {
+        url = "github:ehadx/dotfiles?dir=nvim";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+      system-mods = {
+        url = "github:ehadx/dotfiles?dir=system";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+    };
+
+    outputs = { self, nixpkgs, home-manager, emacs-conf, gnome-conf, nvim-conf, nix-darwin, system-mods, ... }:
+      let
+        darwin-conf = { pkgs, ... }: {
+          imports = [
+            system-mods.modules.shared
+            system-mods.modules.darwin
+            emacs-conf.system-conf
+            nvim-conf.system-conf
+          ];
+
+          # Set Git commit hash for darwin-version.
+          system.configurationRevision = self.rev or self.dirtyRev or null;
+
+          # Used for backwards compatibility, please read the changelog before changing.
+          # $ darwin-rebuild changelog
+          system.stateVersion = 5;
+
+          # The platform the configuration will be used on.
+          nixpkgs.hostPlatform = "x86_64-darwin";
+        };
+
+        home-conf = ({ config, pkgs, emacs-conf, nvim-conf, ... }: {
+          imports = [
+            emacs-conf
+            nvim-conf
+            ({ config, pkgs, ... }: {
+              home.username = "yourusername";
+              home.stateVersion = "24.11";
+
+              home.packages = [
+                pkgs.direnv
+                pkgs.nix-direnv
+              ];
+
+              home.sessionVariables = {
+                EDITOR = "emacs";
+              };
+
+              # Let Home Manager install and manage itself.
+              programs.home-manager.enable = true;
+
+              programs.git = {
+                enable = true;
+                userName = "githubusername";
+                userEmail = "useremail@gmail.com";
+              };
+            })
+          ];
+        });
+      in {
+        darwinConfigurations."machinehostname" = nix-darwin.lib.darwinSystem {
+          modules = [
+            darwin-conf
+            home-manager.darwinModules.home-manager {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                emacs-conf = emacs-conf.home-conf;
+                nvim-conf = nvim-conf.home-conf;
+              };
+              users.users.yourusername.home = "/Users/yourusername";
+              home-manager.users.yourusername = home-conf;
+            }
+          ];
+        };
+      };
+  }
+
+#+END_SRC
