@@ -1,0 +1,87 @@
+* Example Usage
+
+#+BEGIN_SRC nix
+{
+  description = "Personal NixOS Configuration";
+
+  inputs = {
+    nixpkgs.url = "nixpkgs/nixos-unstable";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    emacs-conf = {
+      url = "github:ehadx/dotfiles?dir=emacs"; # from github
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    gnome-conf = {
+      url = "path:dotfiles/gnome";  # from the filesystem
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nvim-conf = {
+      url = "path:dotfiles/nvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = { nixpkgs, home-manager, emacs-conf, gnome-conf, nvim-conf, ... }:
+    let
+      system = "x86_64-linux";
+      lib = nixpkgs.lib;
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      nixosConfigurations = {
+        nixos-msi = lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./hardware-configuration.nix # not commited anymore
+            ./dotfiles/system/nvidia.nix
+            ./dotfiles/system/containers.nix
+            ./dotfiles/system/shared.nix
+            ./dotfiles/system/linux.nix
+            gnome-conf.system-conf
+            emacs-conf.system-conf
+            nvim-conf.system-conf
+
+            home-manager.nixosModules.home-manager {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                emacs-conf = emacs-conf.home-conf;
+                gnome-conf = gnome-conf.home-conf;
+                nvim-conf = nvim-conf.home-conf;
+              };
+              home-manager.users.userx = ({ config, pkgs, emacs-conf, gnome-conf, nvim-conf, ... }: {
+                imports = [
+                  ({ config, pkgs, ... }: {
+                    home.username = "userx";
+                    home.homeDirectory = "/home/userx";
+                    home.stateVersion = "24.05";
+
+                    home.packages = [
+                      pkgs.direnv
+                      pkgs.nix-direnv
+                    ];
+
+                    home.sessionVariables = {
+                      EDITOR = "emacs";
+                    };
+
+                    # Let Home Manager install and manage itself.
+                    programs.home-manager.enable = true;
+
+                    programs.git = {
+                    };
+                  })
+                  emacs-conf
+                  gnome-conf
+                  nvim-conf
+                ];
+              });
+            }
+          ];
+        };
+      };
+    };
+}
+#+END_SRC
