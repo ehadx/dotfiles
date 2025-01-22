@@ -2,143 +2,145 @@
 * Example Usage
 
 #+BEGIN_SRC nix
-{
-  description = "Personal NixOS Configuration";
+  {
+    description = "Personal NixOS Configuration";
 
-  inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    emacs-conf = {
-      url = "github:ehadx/dotfiles?dir=emacs"; # from github
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    gnome-conf = {
-      url = "path:dotfiles/gnome";  # from the filesystem
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nvim-conf = {
-      url = "path:dotfiles/nvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
-
-  outputs = { self, nixpkgs, home-manager, emacs-conf, gnome-conf, nvim-conf, nix-darwin, ... }:
-    let
-      darwin-conf = { pkgs, ... }: {
-        imports = [
-          ./dotfiles/system/shared.nix
-          ./dotfiles/system/darwin.nix
-          emacs-conf.system-conf
-          nvim-conf.system-conf
-        ];
-
-        time.timeZone = "Asia/Beirut";
-
-        # Enable alternative shell support in nix-darwin.
-        # programs.fish.enable = true;
-
-        # Set Git commit hash for darwin-version.
-        system.configurationRevision = self.rev or self.dirtyRev or null;
-
-        # Used for backwards compatibility, please read the changelog before changing.
-        # $ darwin-rebuild changelog
-        system.stateVersion = 5;
-
-        # The platform the configuration will be used on.
-        nixpkgs.hostPlatform = "x86_64-darwin";
+    inputs = {
+      nixpkgs.url = "nixpkgs/nixos-unstable";
+      nix-darwin = {
+        url = "github:LnL7/nix-darwin/master";
+        inputs.nixpkgs.follows = "nixpkgs";
       };
+      home-manager = {
+        url = "github:nix-community/home-manager";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+      emacs-conf = {
+        url = "github:ehadx/dotfiles?dir=emacs";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+      gnome-conf = {
+        url = "github:ehadx/dotfiles?dir=gnome";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+      nvim-conf = {
+        url = "github:ehadx/dotfiles?dir=nvim";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+      system-mods = {
+        url = "github:ehadx/dotfiles?dir=system";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+    };
 
-      shared-home-conf = { config, pkgs, ... }: {
-        home.packages = [
-          pkgs.direnv
-          pkgs.nix-direnv
-        ];
+    outputs = { self, nixpkgs, home-manager, emacs-conf, gnome-conf, nvim-conf, nix-darwin, system-mods, ... }:
+      let
+        darwin-conf = { pkgs, ... }: {
+          imports = [
+            system-mods.modules.shared
+            system-mods.modules.darwin
+            emacs-conf.system-conf
+            nvim-conf.system-conf
+          ];
 
-        home.sessionVariables = {
-          EDITOR = "emacs";
+          # Enable alternative shell support in nix-darwin.
+          # programs.fish.enable = true;
+
+          # Set Git commit hash for darwin-version.
+          system.configurationRevision = self.rev or self.dirtyRev or null;
+
+          # Used for backwards compatibility, please read the changelog before changing.
+          # $ darwin-rebuild changelog
+          system.stateVersion = 5;
+
+          # The platform the configuration will be used on.
+          nixpkgs.hostPlatform = "x86_64-darwin";
         };
 
-        # Let Home Manager install and manage itself.
-        programs.home-manager.enable = true;
+        shared-home-conf = { config, pkgs, ... }: {
+          home.packages = [
+            pkgs.direnv
+            pkgs.nix-direnv
+          ];
 
-        programs.git = {
-          enable = true;
-          userName = "username";
-          userEmail = "username@gmail.com";
+          home.sessionVariables = {
+            EDITOR = "emacs";
+          };
+
+          # Let Home Manager install and manage itself.
+          programs.home-manager.enable = true;
+
+          programs.git = {
+            enable = true;
+            userName = "username";
+            userEmail = "username@gmail.com";
+          };
+        };
+      in {
+        nixosConfigurations.nixos-msi = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hardware-configuration.nix # not commited anymore
+            system-mods.modules.shared
+            system-mods.modules.linux
+            system-mods.modules.nvidia
+            system-mods.modules.containers
+            gnome-conf.system-conf
+            emacs-conf.system-conf
+            nvim-conf.system-conf
+
+            home-manager.nixosModules.home-manager {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                emacs-conf = emacs-conf.home-conf;
+                gnome-conf = gnome-conf.home-conf;
+                nvim-conf = nvim-conf.home-conf;
+              };
+              home-manager.users.hadi = ({ config, pkgs, emacs-conf, gnome-conf, nvim-conf, ... }: {
+                imports = [
+                  shared-home-conf
+                  ({ config, pkgs, ... }: {
+                    home.username = "username";
+                    home.homeDirectory = "/home/username";
+                    home.stateVersion = "24.05";
+                  })
+                  emacs-conf
+                  gnome-conf
+                  nvim-conf
+                ];
+              });
+            }
+          ];
+        };
+
+        # Build darwin flake using:
+        # $ darwin-rebuild build --flake .#macos
+        darwinConfigurations."macos" = nix-darwin.lib.darwinSystem {
+          modules = [
+            darwin-conf
+            home-manager.darwinModules.home-manager {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                emacs-conf = emacs-conf.home-conf;
+                nvim-conf = nvim-conf.home-conf;
+              };
+              users.users.username.home = "/Users/username";
+              home-manager.users.username = ({ config, pkgs, emacs-conf, nvim-conf, ... }: {
+                imports = [
+                  emacs-conf
+                  nvim-conf
+                  shared-home-conf
+                  ({ config, pkgs, ... }: {
+                    home.username = "username";
+                    home.stateVersion = "24.11";
+                  })
+                ];
+              });
+            }
+          ];
         };
       };
-    in {
-      nixosConfigurations.nixos-msi = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hardware-configuration.nix # not commited anymore
-          ./dotfiles/system/nvidia.nix
-          ./dotfiles/system/containers.nix
-          ./dotfiles/system/shared.nix
-          ./dotfiles/system/linux.nix
-          gnome-conf.system-conf
-          emacs-conf.system-conf
-          nvim-conf.system-conf
-
-          home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {
-              emacs-conf = emacs-conf.home-conf;
-              gnome-conf = gnome-conf.home-conf;
-              nvim-conf = nvim-conf.home-conf;
-            };
-            home-manager.users.hadi = ({ config, pkgs, emacs-conf, gnome-conf, nvim-conf, ... }: {
-              imports = [
-                shared-home-conf
-                ({ config, pkgs, ... }: {
-                  home.username = "username";
-                  home.homeDirectory = "/home/username";
-                  home.stateVersion = "24.05";
-                })
-                emacs-conf
-                gnome-conf
-                nvim-conf
-              ];
-            });
-          }
-        ];
-      };
-
-      # Build darwin flake using:
-      # $ darwin-rebuild build --flake .#macos
-      darwinConfigurations."macos" = nix-darwin.lib.darwinSystem {
-        modules = [
-          darwin-conf
-          home-manager.darwinModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {
-              emacs-conf = emacs-conf.home-conf;
-              nvim-conf = nvim-conf.home-conf;
-            };
-            users.users.username.home = "/Users/username";
-            home-manager.users.username = ({ config, pkgs, emacs-conf, nvim-conf, ... }: {
-              imports = [
-                emacs-conf
-                nvim-conf
-                shared-home-conf
-                ({ config, pkgs, ... }: {
-                  home.username = "username";
-                  home.stateVersion = "24.11";
-                })
-              ];
-            });
-          }
-        ];
-      };
-    };
-}
+  }
 #+END_SRC
