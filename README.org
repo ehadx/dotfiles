@@ -1,16 +1,14 @@
 
 * Example Usage
 
+** NixOS
+
 #+BEGIN_SRC nix
   {
     description = "Personal NixOS Configuration";
 
     inputs = {
       nixpkgs.url = "nixpkgs/nixos-unstable";
-      nix-darwin = {
-        url = "github:LnL7/nix-darwin/master";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
       home-manager = {
         url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs";
@@ -33,113 +31,67 @@
       };
     };
 
-    outputs = { self, nixpkgs, home-manager, emacs-conf, gnome-conf, nvim-conf, nix-darwin, system-mods, ... }:
+    outputs = { nixpkgs, home-manager, emacs-conf, gnome-conf, nvim-conf, system-mods, ... }:
       let
-        darwin-conf = { pkgs, ... }: {
-          imports = [
-            system-mods.modules.shared
-            system-mods.modules.darwin
-            emacs-conf.system-conf
-            nvim-conf.system-conf
-          ];
-
-          # Enable alternative shell support in nix-darwin.
-          # programs.fish.enable = true;
-
-          # Set Git commit hash for darwin-version.
-          system.configurationRevision = self.rev or self.dirtyRev or null;
-
-          # Used for backwards compatibility, please read the changelog before changing.
-          # $ darwin-rebuild changelog
-          system.stateVersion = 5;
-
-          # The platform the configuration will be used on.
-          nixpkgs.hostPlatform = "x86_64-darwin";
-        };
-
-        shared-home-conf = { config, pkgs, ... }: {
-          home.packages = [
-            pkgs.direnv
-            pkgs.nix-direnv
-          ];
-
-          home.sessionVariables = {
-            EDITOR = "emacs";
-          };
-
-          # Let Home Manager install and manage itself.
-          programs.home-manager.enable = true;
-
-          programs.git = {
-            enable = true;
-            userName = "username";
-            userEmail = "username@gmail.com";
-          };
-        };
+        system = "x86_64-linux";
+        lib = nixpkgs.lib;
+        pkgs = nixpkgs.legacyPackages.${system};
       in {
-        nixosConfigurations.nixos-msi = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hardware-configuration.nix # not commited anymore
-            system-mods.modules.shared
-            system-mods.modules.linux
-            system-mods.modules.nvidia
-            system-mods.modules.containers
-            gnome-conf.system-conf
-            emacs-conf.system-conf
-            nvim-conf.system-conf
+        nixosConfigurations = {
+          machinehostname = lib.nixosSystem {
+            inherit system;
+            modules = [
+              ./hardware-configuration.nix
+              ./some-machine-special-module.nix
+              system-mods.modules.shared
+              system-mods.modules.linux
+              system-mods.modules.nvidia
+              system-mods.modules.containers
+              gnome-conf.system-conf
+              emacs-conf.system-conf
+              nvim-conf.system-conf
 
-            home-manager.nixosModules.home-manager {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {
-                emacs-conf = emacs-conf.home-conf;
-                gnome-conf = gnome-conf.home-conf;
-                nvim-conf = nvim-conf.home-conf;
-              };
-              home-manager.users.hadi = ({ config, pkgs, emacs-conf, gnome-conf, nvim-conf, ... }: {
-                imports = [
-                  shared-home-conf
-                  ({ config, pkgs, ... }: {
-                    home.username = "username";
-                    home.homeDirectory = "/home/username";
-                    home.stateVersion = "24.05";
-                  })
-                  emacs-conf
-                  gnome-conf
-                  nvim-conf
-                ];
-              });
-            }
-          ];
-        };
+              home-manager.nixosModules.home-manager {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.extraSpecialArgs = {
+                  emacs-conf = emacs-conf.home-conf;
+                  gnome-conf = gnome-conf.home-conf;
+                  nvim-conf = nvim-conf.home-conf;
+                };
+                home-manager.users.yourusername = ({ config, pkgs, emacs-conf, gnome-conf, nvim-conf, ... }: {
+                  imports = [
+                    ({ config, pkgs, ... }: {
+                      home.username = "yourusername";
+                      home.homeDirectory = "/home/yourusername";
+                      home.stateVersion = "24.05"; # depends on homemanager version
 
-        # Build darwin flake using:
-        # $ darwin-rebuild build --flake .#macos
-        darwinConfigurations."macos" = nix-darwin.lib.darwinSystem {
-          modules = [
-            darwin-conf
-            home-manager.darwinModules.home-manager {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {
-                emacs-conf = emacs-conf.home-conf;
-                nvim-conf = nvim-conf.home-conf;
-              };
-              users.users.username.home = "/Users/username";
-              home-manager.users.username = ({ config, pkgs, emacs-conf, nvim-conf, ... }: {
-                imports = [
-                  emacs-conf
-                  nvim-conf
-                  shared-home-conf
-                  ({ config, pkgs, ... }: {
-                    home.username = "username";
-                    home.stateVersion = "24.11";
-                  })
-                ];
-              });
-            }
-          ];
+                      home.packages = [
+                        pkgs.direnv
+                        pkgs.nix-direnv
+                      ];
+
+                      home.sessionVariables = {
+                        EDITOR = "emacs";
+                      };
+
+                      # Let Home Manager install and manage itself.
+                      programs.home-manager.enable = true;
+
+                      programs.git = {
+                        enable = true;
+                        userName = "githubusername";
+                        userEmail = "useremail@gmail.com";
+                      };
+                    })
+                    emacs-conf
+                    gnome-conf
+                    nvim-conf
+                  ];
+                });
+              }
+            ];
+          };
         };
       };
   }
