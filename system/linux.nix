@@ -86,4 +86,8 @@
 
   # services.picom.enable = true;
   # services.libinput.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    ghostty
+  ];
 }

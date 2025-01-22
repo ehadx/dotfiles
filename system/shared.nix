@@ -4,7 +4,6 @@
   environment.systemPackages = with pkgs; [
     fastfetch
     htop
-    ghostty
   ];
 
   fonts.packages = with pkgs; [
