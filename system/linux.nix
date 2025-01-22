@@ -1,15 +1,6 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./nvidia.nix
-    ];
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -26,8 +17,6 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  time.timeZone = "Asia/Beirut";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -55,10 +44,6 @@
     };
   };
 
-  services.emacs.enable = true;
-  # services.picom.enable = true;
-  # services.libinput.enable = true;
-
   services.flatpak.enable = true;
   environment.variables = {
     XDG_DATA_DIRS = lib.mkDefault "$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:~/.local/share/flatpak/exports/share";
@@ -80,13 +65,6 @@
     pulse.enable = true;
   };
 
-  virtualisation = {
-    docker = {
-      enable = true;
-      enableOnBoot = false;
-    };
-  };
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.hadi = {
     isNormalUser = true;
@@ -94,33 +72,6 @@
     initialPassword = "nix123";
     extraGroups = [ "wheel" "docker" ];
   };
-
-  # List packages installed in system profile. To search, run:
-  environment.systemPackages = with pkgs; [
-    fastfetch
-    neovim
-    htop
-    ghostty
-
-    # Kubernetes
-    minikube
-    kubectl
-    kubernetes-helm
-  ];
-
-  fonts.packages = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-emoji
-    dina-font
-    victor-mono
-    iosevka-comfy.comfy-wide-motion
-    iosevka-comfy.comfy-motion-fixed
-    nerd-fonts.sauce-code-pro
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.iosevka
-    nerd-fonts.victor-mono
-  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -133,11 +84,6 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
-  system.stateVersion = "24.05";
+  # services.picom.enable = true;
+  # services.libinput.enable = true;
 }
