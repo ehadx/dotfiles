@@ -8,10 +8,10 @@
   system.defaults.NSGlobalDomain.InitialKeyRepeat = 14;
   system.defaults.NSGlobalDomain.KeyRepeat = 1;
 
-  homebrew = {
-    enable = true;
-    casks = [
-      "floorp"
-    ];
+#  homebrew = {
+#   enable = true;
+#   casks = [
+#      "floorp"
+#    ];
   };
 }
