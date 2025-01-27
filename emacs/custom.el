@@ -13,7 +13,7 @@
  '(org-level-6 ((t (:inherit outline-6 :extend nil :height 1.175))))
  '(org-level-7 ((t (:inherit outline-7 :extend nil :height 1.15))))
  '(org-level-8 ((t (:inherit outline-8 :extend nil :height 1.1))))
- '(variable-pitch ((t (:slant normal :weight regular :height 140 :width normal :family "DejaVu Sans")))))
+ '(variable-pitch ((t (:slant normal :weight regular :height 130 :width normal :family "Verdana")))))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -42,7 +42,7 @@
  '(nerd-icons-scale-factor 1.0)
  '(org-agenda-loop-over-headlines-in-active-region nil)
  '(package-selected-packages
-   '(markdown-mode cyberpunk-theme color-theme-sanityinc-tomorrow gruvbox-theme web-mode ef-themes hy-mode zig-mode hl-todo gruber-darker-theme eglot-fsharp zig-ts-mode roc-ts-mode eglot rust-mode wgrep js-mode typescript-mode nerd-icons-dired quelpa-use-package quelpa pdf-tools toml-mode magit doom-modeline direnv standard-themes modus-themes helpfuL clojure-mode fsharp-mode which-key nix-mode helpful evil))
+   '(visual-fill-column markdown-mode cyberpunk-theme color-theme-sanityinc-tomorrow gruvbox-theme web-mode ef-themes hy-mode zig-mode hl-todo gruber-darker-theme eglot-fsharp zig-ts-mode roc-ts-mode eglot rust-mode wgrep js-mode typescript-mode nerd-icons-dired quelpa-use-package quelpa pdf-tools toml-mode magit doom-modeline direnv standard-themes modus-themes helpfuL clojure-mode fsharp-mode which-key nix-mode helpful evil))
  '(pdf-outline-display-labels t)
  '(pdf-outline-imenu-keep-order t)
  '(pdf-outline-imenu-use-flat-menus nil)

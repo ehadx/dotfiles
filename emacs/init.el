@@ -66,7 +66,30 @@
 (use-package org
   :ensure t
   :config
-  (add-hook 'org-mode-hook (lambda () (visual-line-mode t))))
+  (add-hook 'org-mode-hook (lambda ()
+                             (variable-pitch-mode t)
+                             (visual-line-mode t)))
+
+  ;; Make sure org-indent face is available
+  (require 'org-indent)
+
+  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+  (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
+  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
+
+(use-package visual-fill-column
+  :ensure t
+  :init
+  (setq-default visual-fill-column-center-text t)
+  (setq-default visual-fill-column-width 100)
+  (setq-default visual-fill-column-fringes-outside-margins t)
+  (setq-default visual-fill-column-extra-text-width '(10 . 10))
+  (advice-add 'text-scale-adjust :after #'visual-fill-column-adjust))
 
 (use-package evil
   :ensure t
@@ -125,7 +148,8 @@
   (setq rust-format-on-save t)
   ;; force the use of spaces instead of tabs
   (add-hook 'rust-mode-hook
-	    (lambda () (setq indent-tabs-mode nil))))
+	        (lambda () (setq indent-tabs-mode nil))))
+
 
 (use-package markdown-mode :ensure t :defer t)
 (use-package web-mode :ensure t :defer t)
