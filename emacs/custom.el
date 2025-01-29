@@ -42,7 +42,7 @@
  '(nerd-icons-scale-factor 1.0)
  '(org-agenda-loop-over-headlines-in-active-region nil)
  '(package-selected-packages
-   '(markdown-mode cyberpunk-theme color-theme-sanityinc-tomorrow gruvbox-theme web-mode ef-themes hy-mode zig-mode hl-todo gruber-darker-theme eglot-fsharp zig-ts-mode roc-ts-mode eglot rust-mode wgrep js-mode typescript-mode nerd-icons-dired quelpa-use-package quelpa pdf-tools toml-mode magit doom-modeline direnv standard-themes modus-themes helpfuL clojure-mode fsharp-mode which-key nix-mode helpful evil))
+   '(visual-fill-column markdown-mode cyberpunk-theme color-theme-sanityinc-tomorrow gruvbox-theme web-mode ef-themes hy-mode zig-mode hl-todo gruber-darker-theme eglot-fsharp zig-ts-mode roc-ts-mode eglot rust-mode wgrep js-mode typescript-mode nerd-icons-dired quelpa-use-package quelpa pdf-tools toml-mode magit doom-modeline direnv standard-themes modus-themes helpfuL clojure-mode fsharp-mode which-key nix-mode helpful evil))
  '(pdf-outline-display-labels t)
  '(pdf-outline-imenu-keep-order t)
  '(pdf-outline-imenu-use-flat-menus nil)

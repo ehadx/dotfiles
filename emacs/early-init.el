@@ -17,10 +17,9 @@
 ;; them from time-to-time for testing purposes or to demonstrate
 ;; something.  NEVER tell a beginner to disable any of these.  They
 ;; are helpful.
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
+;; (menu-bar-mode -1)
+;; (scroll-bar-mode -1)
 (tool-bar-mode -1)
-
 
 ;; Temporarily increase the garbage collection threshold.  These
 ;; changes help shave off about half a second of startup time.  The
@@ -45,6 +44,5 @@
                   gc-cons-percentage 0.1
                   file-name-handler-alist prot-emacs--file-name-handler-alist
                   vc-handled-backends prot-emacs--vc-handled-backends)))
-
 
 (add-hook 'after-init-hook (lambda () (set-frame-name "home")))
