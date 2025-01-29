@@ -39,8 +39,8 @@
   (add-hook
    'prog-mode-hook
    (lambda nil
-     (display-line-numbers-mode)
-     (setq display-line-numbers 'relative)
+     ;; (display-line-numbers-mode)
+     ;; (setq display-line-numbers 'relative)
      (outline-minor-mode 1)))
 
   (set-fontset-font t 'arabic "Noto Sans Arabic"))
@@ -75,7 +75,7 @@
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
   (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
@@ -143,7 +143,7 @@
   :ensure t
   :defer t
   :init
-  (setq rust-mode-treesitter-derive nil)
+  (setq rust-mode-treesitter-derive t)
   :config
   (setq rust-format-on-save t)
   ;; force the use of spaces instead of tabs
