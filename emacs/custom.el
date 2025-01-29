@@ -13,7 +13,7 @@
  '(org-level-6 ((t (:inherit outline-6 :extend nil :height 1.175))))
  '(org-level-7 ((t (:inherit outline-7 :extend nil :height 1.15))))
  '(org-level-8 ((t (:inherit outline-8 :extend nil :height 1.1))))
- '(variable-pitch ((t (:slant normal :weight regular :height 140 :width normal :family "DejaVu Sans")))))
+ '(variable-pitch ((t (:slant normal :weight regular :height 130 :width normal :family "Verdana")))))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
