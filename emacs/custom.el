@@ -21,6 +21,8 @@
  ;; If there is more than one, they won't work right.
  '(all-the-icons-dired-monochrome nil)
  '(battery-mode-line-format "[%b%p%% %t] ")
+ '(custom-safe-themes
+   '("cee5c56dc8b95b345bfe1c88d82d48f89e0f23008b0c2154ef452b2ce348da37" default))
  '(display-time-day-and-date t)
  '(eglot-connect-timeout 300)
  '(eglot-fsharp-server-install-dir nil)
