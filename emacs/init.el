@@ -41,7 +41,8 @@
    (lambda nil
      ;; (display-line-numbers-mode)
      ;; (setq display-line-numbers 'relative)
-     (outline-minor-mode 1)))
+     ;; (outline-minor-mode 1)
+     ))
 
   (set-fontset-font t 'arabic "Noto Sans Arabic"))
 
