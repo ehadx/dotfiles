@@ -1,7 +1,25 @@
+(defun ehadx/line-numbers-mode-rotate nil
+  (interactive)
+
+  (if (not display-line-numbers)
+      (funcall (lambda nil ()
+                 (display-line-numbers-mode)
+                 (setq display-line-numbers 'visual)))
+    (pcase display-line-numbers
+      ('visual
+       (setq display-line-numbers t))
+      (t
+       (display-line-numbers-mode -1)))))
+
 (use-package emacs
   :ensure nil
-  :init
-  ;(load-theme 'modus-vivendi)
+  :bind (("C-, C-n" . ehadx/line-numbers-mode-rotate))
+  :hook
+  (before-save . delete-trailing-whitespace)
+  (package-menu-mode . (lambda nil (hl-line-mode t)))
+  (prog-mode . (lambda nil
+                 (display-line-numbers-mode)
+                 (setq display-line-numbers 'visual)))
 
   :config
   (setq custom-file "~/.emacs.d/custom.el")
@@ -15,6 +33,13 @@
   (setq indent-tabs-mode nil)
   (setq indent-line-function 'insert-tab)
 
+  (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+  (setq visible-bell t)
+  (set-fontset-font t 'arabic "Noto Sans Arabic"))
+
+(use-package package
+  :ensure nil
+  :config
   (unless (package-installed-p 'quelpa)
     (with-temp-buffer
       (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
@@ -28,23 +53,7 @@
 
   (require 'package)
   (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/") t)
-
-  (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-  (setq visible-bell t)
-
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
-  (add-hook 'package-menu-mode-hook (lambda () (hl-line-mode t)))
-
-  (add-hook
-   'prog-mode-hook
-   (lambda nil
-     ;; (display-line-numbers-mode)
-     ;; (setq display-line-numbers 'relative)
-     ;; (outline-minor-mode 1)
-     ))
-
-  (set-fontset-font t 'arabic "Noto Sans Arabic"))
+               '("melpa" . "https://melpa.org/packages/") t))
 
 (use-package dired
   :ensure nil
@@ -57,6 +66,18 @@
   (ido-mode t)
   (ido-everywhere t)
   (setq ido-auto-merge-delay-time 5))
+
+(defun ehadx/hs-init nil
+  (hs-minor-mode nil)
+  (hs-hide-all))
+
+(use-package hideshow
+  :ensure nil
+  :bind (("C-, C-." .  hs-toggle-hiding))
+  :hook
+  (rust-ts-mode . ehadx/hs-init)
+  (rust-mode . ehadx/hs-init)
+  (emacs-lisp-mode . ehadx/hs-init))
 
 (use-package icomplete
   :ensure nil
@@ -139,7 +160,6 @@
   :config
   (add-to-list 'revert-without-query ".pdf"))
 
-
 (use-package rust-mode
   :ensure t
   :defer t
@@ -150,7 +170,6 @@
   ;; force the use of spaces instead of tabs
   (add-hook 'rust-mode-hook
 	        (lambda () (setq indent-tabs-mode nil))))
-
 
 (use-package markdown-mode :ensure t :defer t)
 (use-package web-mode :ensure t :defer t)
