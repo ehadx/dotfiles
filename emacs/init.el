@@ -73,7 +73,8 @@
 
 (use-package hideshow
   :ensure nil
-  :bind (("C-, C-." .  hs-toggle-hiding))
+  :bind (("C-, C-." . hs-toggle-hiding)
+         ("C-, C-l" . hs-hide-level))
   :hook
   (rust-ts-mode . ehadx/hs-init)
   (rust-mode . ehadx/hs-init)
@@ -171,8 +172,18 @@
   (add-hook 'rust-mode-hook
 	        (lambda () (setq indent-tabs-mode nil))))
 
+(use-package web-mode
+  :ensure t
+  :defer t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.cshtml?\\'" . web-mode))
+
+  (setq web-mode-engines-alist
+        '(("razor" . "\\.cshtml\\'")))
+  :hook
+  (web-mode . (lambda nil (setq tab-width 2))))
+
 (use-package markdown-mode :ensure t :defer t)
-(use-package web-mode :ensure t :defer t)
 (use-package hy-mode :ensure t :defer t)
 (use-package zig-mode :ensure t :defer t)
 (use-package csharp-mode :ensure t :defer t)
