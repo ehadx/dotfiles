@@ -69,12 +69,14 @@
 
 (defun ehadx/hs-init nil
   (hs-minor-mode nil)
-  (hs-hide-all))
+  ; (hs-hide-all)
+  )
 
 (use-package hideshow
   :ensure nil
   :bind (("C-, C-." . hs-toggle-hiding)
-         ("C-, C-l" . hs-hide-level))
+         ("C-, C-l" . hs-hide-level)
+         ("C-, C-s" . hs-show-all))
   :hook
   (rust-ts-mode . ehadx/hs-init)
   (rust-mode . ehadx/hs-init)
