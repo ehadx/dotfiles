@@ -1,16 +1,15 @@
 { config, pkgs, ... }:
 
 {
-  virtualisation = {
-    docker = {
-      enable = true;
-      enableOnBoot = false;
-    };
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
   };
-
   environment.systemPackages = with pkgs; [
-    minikube
-    kubectl
-    kubernetes-helm
+    #    minikube
+    #    kubectl
+    #    kubernetes-helm
+    distrobox
+    podman-desktop
   ];
 }

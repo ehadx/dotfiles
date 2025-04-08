@@ -44,7 +44,7 @@
     };
   };
 
-  services.flatpak.enable = true;
+  services.flatpak.enable = false;
   environment.variables = {
     XDG_DATA_DIRS = lib.mkDefault "$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:~/.local/share/flatpak/exports/share";
     DOTNET_CLI_TELEMETRY_OPTOUT = 1;
@@ -66,7 +66,7 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.hadi = {
+  users.users.hadx = {
     isNormalUser = true;
     uid = 1000;
     initialPassword = "nix123";
@@ -89,5 +89,6 @@
 
   environment.systemPackages = with pkgs; [
     ghostty
+    floorp
   ];
 }
