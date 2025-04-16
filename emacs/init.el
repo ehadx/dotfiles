@@ -11,6 +11,12 @@
       (t
        (display-line-numbers-mode -1)))))
 
+(defun ehadx/c-mode-hook nil
+  (interactive)
+  (setq c-basic-offset 4)
+  (setq tab-width 4)
+  (setq indent-tabs-mode nil))
+
 (use-package emacs
   :ensure nil
   :bind (("C-, C-n" . ehadx/line-numbers-mode-rotate))
@@ -20,10 +26,9 @@
   (prog-mode . (lambda nil
                  (display-line-numbers-mode)
                  (setq display-line-numbers 'visual)))
-  (c-mode . (lambda nil
-	      (setq c-basic-offset 4)
-	      (setq tab-width 4)
-	      (setq indent-tabs-mode nil)))
+  (c-mode . (lambda nil (ehadx/c-mode-hook)))
+  (cc-mode . (lambda nil (ehadx/c-mode-hook)))
+  (c++-mode . (lambda nil (ehadx/c-mode-hook)))
   :init
   (load-theme 'gruvbox-dark-hard)
   (tool-bar-mode -1)
