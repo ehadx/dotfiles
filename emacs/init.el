@@ -39,6 +39,14 @@
 
   (setq indent-tabs-mode 'indent-relative)
 
+  (if (>= emacs-major-version 28)
+    (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
+  (progn
+    (defun colorize-compilation-buffer ()
+      (let ((inhibit-read-only t))
+        (ansi-color-apply-on-region compilation-filter-start (point))))
+    (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)))
+
   (column-number-mode t)
   (delete-selection-mode t)
 
@@ -151,6 +159,10 @@
 
 (use-package markdown-mode :ensure t :defer t)
 (use-package zig-mode :ensure t :defer t)
+(use-package zig-ts-mode
+  :ensure t
+  :defer t
+  :config (add-to-list 'auto-mode-alist '("\\.zig\\'" . zig-ts-mode)))
 (use-package csharp-mode :ensure t :defer t)
 (use-package gruber-darker-theme :ensure t)
 (use-package gruvbox-theme :ensure t)
