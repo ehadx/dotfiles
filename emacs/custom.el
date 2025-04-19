@@ -33,6 +33,7 @@
  '(mpc-mpd-music-directory "~/Music")
  '(nerd-icons-scale-factor 1.0)
  '(org-agenda-loop-over-headlines-in-active-region nil)
+ '(package-selected-packages nil)
  '(pdf-outline-display-labels t)
  '(pdf-outline-imenu-keep-order t)
  '(pdf-outline-imenu-use-flat-menus nil)
